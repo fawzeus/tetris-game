@@ -1,0 +1,1 @@
+const int WIDTH = 320,HEIGHT=480;   
