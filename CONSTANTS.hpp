@@ -1,1 +1,1 @@
-const int WIDTH = 320,HEIGHT=480;   
+const int WIDTH = 320,HEIGHT=480;
