@@ -6,8 +6,11 @@ Tile::Tile(double x, double y):x(x),y(y){
     tile_image.setTexture(tile);
     left=rand_choice();
     tile_image.setTextureRect(sf::IntRect(left,0,18,18));
-    tile_image.setPosition(x,y);
-    //tile_image.setOrigin(tile_image.getLocalBounds().width / 2, tile_image.getLocalBounds().height / 2); // Set origin to center of the bird image
+    //tile_image.setPosition(x,y);
+    std::vector<std::pair<int,int>> shape=shapes[rand_int(0,7)];
+    for(auto it=shape.begin();it!=shape.end();it++){
+        tile_grid[it->first][it->second]=true;
+    }
 }
 
 Tile::Tile(const Tile &other){
@@ -17,10 +20,28 @@ Tile::Tile(const Tile &other){
     tile_image.setTexture(tile);
     left=other.left;
     tile_image.setTextureRect(sf::IntRect(left,0,18,18));
-    tile_image.setPosition(x,y);
+    //tile_image.setPosition(x,y);
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            tile_grid[i][j]=other.tile_grid[i][j];
+        }
+    }
+
 }
 void Tile::draw(sf::RenderWindow &window){
-    window.draw(tile_image);
+    double posx=x,posy=y;
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            if(tile_grid[i][j]){
+                tile_image.setPosition(posx,posy);
+                window.draw(tile_image);
+            }
+            posy+=18;
+        }
+        posy=y;
+        posx+=18;
+    }
+    //window.draw(tile_image);
 }
 
 

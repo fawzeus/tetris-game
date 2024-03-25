@@ -2,6 +2,7 @@
 #define TILE_HPP
 #include <SFML/Graphics.hpp>
 #include <cstdlib>
+#include "utils.hpp"
 #include "CONSTANTS.hpp"
 class Tile{
     private:
@@ -9,6 +10,7 @@ class Tile{
         int left;
         sf::Texture tile;
         sf::Sprite tile_image;
+        bool tile_grid[4][4]={false};
     public:
         Tile(double x,double y);
         Tile(const Tile &other);

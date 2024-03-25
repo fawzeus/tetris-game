@@ -8,6 +8,7 @@ class Game{
     private:
         std:: vector<Tile> tiles;
         sf::RenderWindow window;
+        bool grid[HEIGHT][WIDTH]={false};
     public:
         Game();
         void init();

@@ -3,6 +3,7 @@
 Game::Game():window(sf::VideoMode(WIDTH,HEIGHT),"Tetris game"){}
 
 void Game::play(){
+    add_tile();
     while(window.isOpen()){
         sf::Event event;
         while (window.pollEvent(event))
@@ -11,7 +12,6 @@ void Game::play(){
                 window.close();
         }
         window.clear();
-        add_tile();
         draw_tiles();
         window.display();
 
