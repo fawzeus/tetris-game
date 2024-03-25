@@ -71,3 +71,7 @@ void Tile::move(Direction dir){
         if(x/18+get_right()+1<NBWIDTH) x+=18;
     }
 }
+
+void Tile::rotate(){
+    
+}
