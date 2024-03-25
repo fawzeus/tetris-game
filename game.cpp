@@ -15,6 +15,8 @@ void Game::play(){
                     current_tile.move(Direction::Left);
                 else if(event.key.code==sf::Keyboard::Right)
                     current_tile.move(Direction::Right);
+                else if(event.key.code==sf::Keyboard::Up)
+                    current_tile.rotate();
             }
         }
         window.clear();

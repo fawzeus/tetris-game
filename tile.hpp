@@ -18,6 +18,10 @@ class Tile{
         void draw(sf::RenderWindow &window);
         void rotate();
         double get_right();
+        double get_left();
+        double get_top();
+        double get_buttom();
+        void shift();
         void move(Direction dir);
 };
 
