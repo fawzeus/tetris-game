@@ -7,6 +7,7 @@
 class Game{
     private:
         std:: vector<Tile> tiles;
+        Tile current_tile;
         sf::RenderWindow window;
         bool grid[HEIGHT][WIDTH]={false};
     public:
@@ -14,6 +15,7 @@ class Game{
         void init();
         void add_tile();
         void draw_tiles();
+        void drawGrid();
         void play();
 };
 

@@ -12,11 +12,13 @@ class Tile{
         sf::Sprite tile_image;
         bool tile_grid[4][4]={false};
     public:
-        Tile(double x,double y);
+        Tile(double x = 0,double y = 0);
         Tile(const Tile &other);
         Tile& operator=(const Tile &other);
         void draw(sf::RenderWindow &window);
-        void move();
+        void rotate();
+        double get_right();
+        void move(Direction dir);
 };
 
 int rand_choice();
