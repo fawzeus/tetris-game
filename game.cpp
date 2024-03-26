@@ -1,9 +1,12 @@
 #include"game.hpp"
 
-Game::Game():window(sf::VideoMode(WIDTH,HEIGHT),"Tetris game"){}
+Game::Game():window(sf::VideoMode(WIDTH,HEIGHT),"Tetris game"){
+    tile.loadFromFile("images/tiles.png");
+}
 
 void Game::play(){
     //add_tile();
+    sf::Clock clock;
     while(window.isOpen()){
         sf::Event event;
         while (window.pollEvent(event))
@@ -19,10 +22,17 @@ void Game::play(){
                     current_tile.rotate();
             }
         }
+        if(clock.getElapsedTime().asSeconds()>0.7){
+            current_tile.gravity(grid,new_tile);
+            clock.restart();
+        }
         window.clear();
         drawGrid();
+        if(new_tile){
+            new_tile=false;
+            current_tile=Tile();
+        }
         current_tile.draw(window);
-        draw_tiles();
         window.display();
 
 
@@ -31,12 +41,6 @@ void Game::play(){
 }
 void Game::add_tile() {
     tiles.push_back(Tile(0,0));
-}
-
-void Game::draw_tiles(){
-    for(auto tile=tiles.begin();tile!=tiles.end();tile++){
-        tile->draw(window);
-    }
 }
 
 void Game::drawGrid() {
@@ -56,5 +60,16 @@ void Game::drawGrid() {
             sf::Vertex(sf::Vector2f(NBWIDTH * 18, j * 18))
         };
         window.draw(line, 2, sf::Lines);
+    }
+    //draw tiles
+    for(int i=0;i<NBHEIGHT;i++){
+        for(int j=0;j<NBWIDTH;j++){
+            sf::Sprite tile_image(tile);
+            if(grid[i][j]){
+                tile_image.setPosition(j*18,i*18);
+                tile_image.setTextureRect(sf::IntRect(grid[i][j]-1,0,18,18));
+                window.draw(tile_image);
+            }
+        }
     }
 }

@@ -6,15 +6,15 @@
 #include "tile.hpp"
 class Game{
     private:
-        std:: vector<Tile> tiles;
         Tile current_tile;
+        sf::Texture tile;
         sf::RenderWindow window;
-        bool grid[HEIGHT][WIDTH]={false};
+        bool new_tile=false;
+        short grid[NBHEIGHT][NBWIDTH]={0};
     public:
         Game();
         void init();
         void add_tile();
-        void draw_tiles();
         void drawGrid();
         void play();
 };

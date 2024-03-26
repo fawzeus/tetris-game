@@ -7,9 +7,9 @@ Tile::Tile(double x, double y):x(x),y(y){
     left=rand_choice();
     tile_image.setTextureRect(sf::IntRect(left,0,18,18));
     //tile_image.setPosition(x,y);
-    int rand_number=rand_int(0,shapes.size());
-    printf("shape %d\n",rand_number);
-    std::vector<std::pair<int,int>> shape=shapes[rand_number];
+    shape_number=rand_int(0,shapes.size());
+    printf("shape %d\n",shape_number);
+    std::vector<std::pair<int,int>> shape=shapes[shape_number];
     for(auto it=shape.begin();it!=shape.end();it++){
         tile_grid[it->first][it->second]=true;
     }
@@ -21,6 +21,7 @@ Tile::Tile(const Tile &other){
     tile.loadFromFile("images/tiles.png");
     tile_image.setTexture(tile);
     left=other.left;
+    shape_number=other.shape_number;
     tile_image.setTextureRect(sf::IntRect(left,0,18,18));
     //tile_image.setPosition(x,y);
     for(int i=0;i<4;i++){
@@ -135,4 +136,65 @@ void Tile::rotate(){
         }
     }
     shift();
+}
+double Tile::get_x(){
+    return x;
+}
+double Tile::get_y(){
+    return y;
+}
+
+void Tile::gravity(short grid[NBHEIGHT][NBWIDTH],bool &new_tile){
+    printf("y=%lf\n",y);
+    if(!check_for_dead_end(grid))
+        y+=18;
+    else{
+        puts("else");
+        int indx=x/18;
+        int indy=y/18;
+        printf("(%d,%d)\n",indx,indy);
+        for(int i=0;i<4;i++){
+            for(int j=0;j<4;j++){
+                if(tile_grid[i][j]) grid[indy+i][indx+j]=left+1;
+            }
+        }
+        for(int i=0;i<NBHEIGHT;i++){
+            for(int j=0;j<NBWIDTH;j++){
+                printf("%d ",grid[i][j]);
+            }
+            puts("");
+        }
+        new_tile=true;
+    }
+}
+bool Tile::check_for_dead_end(short grid[NBHEIGHT][NBWIDTH]){
+    int indx=x/18;
+    int indy=y/18;
+    if (indy+get_buttom()== NBHEIGHT-1) return true;
+    for(int i=0;i<4;i++){
+        for(int j=0;j<4;j++){
+            if(tile_grid[i][j] and grid[indy+i+1][indx+j])
+                return true;
+        }
+    }
+    return false;
+}
+
+Tile& Tile::operator=(const Tile &other){
+    if(this!=&other){
+        x=other.x;
+        y=other.y;
+        tile.loadFromFile("images/tiles.png");
+        tile_image.setTexture(tile);
+        left=other.left;
+        shape_number=other.shape_number;
+        tile_image.setTextureRect(sf::IntRect(left,0,18,18));
+        //tile_image.setPosition(x,y);
+        for(int i=0;i<4;i++){
+            for(int j=0;j<4;j++){
+                tile_grid[i][j]=other.tile_grid[i][j];
+            }
+        }
+    }
+    return *this;
 }
