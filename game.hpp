@@ -14,9 +14,12 @@ class Game{
     public:
         Game();
         void init();
-        void add_tile();
         void drawGrid();
         void play();
+        bool check_line_full(int i);
+        void delete_line(int i);
+        void update_grid();
+
 };
 
 #endif

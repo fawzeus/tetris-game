@@ -30,6 +30,7 @@ void Game::play(){
         drawGrid();
         if(new_tile){
             new_tile=false;
+            update_grid();
             current_tile=Tile();
         }
         current_tile.draw(window);
@@ -38,9 +39,6 @@ void Game::play(){
 
     }
     sf::sleep(sf::milliseconds(10));
-}
-void Game::add_tile() {
-    tiles.push_back(Tile(0,0));
 }
 
 void Game::drawGrid() {
@@ -71,5 +69,28 @@ void Game::drawGrid() {
                 window.draw(tile_image);
             }
         }
+    }
+}
+
+bool Game::check_line_full(int i){
+    for(int j=0;j<NBWIDTH;j++){
+        if (!grid[i][j]) return false;
+    }
+    return true;
+}
+void Game::delete_line(int i){
+    for(int indy=i;indy>1;indy--){
+        for(int indx=0;indx<NBWIDTH;indx++){
+            grid[indy][indx]=grid[indy-1][indx];
+        }
+    }
+    for(int j=0;j<NBWIDTH;j++){
+        grid[0][j]=0;
+    }
+}
+void Game::update_grid(){
+    for(int i=0;i<NBHEIGHT;i++){
+        if(check_line_full(i))
+            delete_line(i);
     }
 }
