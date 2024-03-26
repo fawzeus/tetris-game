@@ -20,9 +20,16 @@ void Game::play(){
                     current_tile.move(Direction::Right);
                 else if(event.key.code==sf::Keyboard::Up)
                     current_tile.rotate();
+                else if(event.key.code==sf::Keyboard::Down)
+                    delay/=2;
+                
+            }
+            else if(event.type == sf::Event::KeyReleased){
+                if(event.key.code==sf::Keyboard::Down)
+                    delay*=2;
             }
         }
-        if(clock.getElapsedTime().asSeconds()>0.7){
+        if(clock.getElapsedTime().asSeconds()>delay){
             current_tile.gravity(grid,new_tile);
             clock.restart();
         }
