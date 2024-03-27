@@ -80,7 +80,7 @@ double Tile::get_top(){
     }
     return top;
 }
-double Tile::get_buttom(){
+double Tile::get_bottom(){
     double buttom=0;
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
@@ -93,13 +93,14 @@ double Tile::get_buttom(){
 void Tile::move(Direction dir){
     //printf("%lf,%lf)\n",x,y);
     if(dir==Direction::Left){
-        if(x>=18) x-=18;
+        if(x+18*get_left()>=18) x-=18;
     }
     else if(dir==Direction::Right){
         if(x/18+get_right()+1<NBWIDTH) x+=18;
     }
 }
 void Tile::shift(){
+    //if(get_bottom()==3 or get_right()==3) return;
     if(get_left()==1){
         for(int i=0;i<4;i++){
             for(int j=1;j<4;j++){
@@ -124,7 +125,7 @@ void Tile::shift(){
 }
 
 void Tile::rotate(){
-    if(get_buttom()>get_left() and x/18+get_right()+1==NBWIDTH)
+    if(get_bottom()>get_left() and x/18+get_right()+1==NBWIDTH)
         move(Direction::Left);
     for(int i=0;i<4/2;i++){
         for(int j=i;j<4-i-1;j++){
@@ -170,7 +171,7 @@ void Tile::gravity(short grid[NBHEIGHT][NBWIDTH],bool &new_tile){
 bool Tile::check_for_dead_end(short grid[NBHEIGHT][NBWIDTH]){
     int indx=x/18;
     int indy=y/18;
-    if (indy+get_buttom()== NBHEIGHT-1) return true;
+    if (indy+get_bottom()== NBHEIGHT-1) return true;
     for(int i=0;i<4;i++){
         for(int j=0;j<4;j++){
             if(tile_grid[i][j] and grid[indy+i+1][indx+j])
@@ -197,4 +198,9 @@ Tile& Tile::operator=(const Tile &other){
         }
     }
     return *this;
+}
+
+void Tile::set_position(int indx,int indy){
+    x=indx;
+    y=indy;
 }

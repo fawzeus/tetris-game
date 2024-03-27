@@ -13,7 +13,7 @@ class Tile{
         sf::Sprite tile_image;
         bool tile_grid[4][4]={false};
     public:
-        Tile(double x = 0,double y = 0);
+        Tile(double x = (NBWIDTH/2-1)*18,double y = -18*4);
         Tile(const Tile &other);
         Tile& operator=(const Tile &other);
         void draw(sf::RenderWindow &window); // draw the Tile
@@ -21,13 +21,14 @@ class Tile{
         double get_right(); 
         double get_left(); 
         double get_top();
-        double get_buttom();
+        double get_bottom();
         void shift(); // shift the tile
         double get_x(); 
         double get_y();
         void move(Direction dir); // move tile to left and right
         bool check_for_dead_end(short grid[NBHEIGHT][NBWIDTH]); // check if there is a collusion
         void gravity(short grid[NBHEIGHT][NBWIDTH],bool &new_tile); // apply gravity
+        void set_position(int indx,int indy);
 };
 
 int rand_choice();

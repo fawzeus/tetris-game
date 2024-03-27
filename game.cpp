@@ -1,6 +1,8 @@
 #include"game.hpp"
 
 Game::Game():window(sf::VideoMode(WIDTH,HEIGHT),"Tetris game"){
+    next_tile=Tile();
+    current_tile=Tile();
     tile.loadFromFile("images/tiles.png");
 }
 
@@ -21,12 +23,12 @@ void Game::play(){
                 else if(event.key.code==sf::Keyboard::Up)
                     current_tile.rotate();
                 else if(event.key.code==sf::Keyboard::Down)
-                    delay/=2;
+                    delay=0.06;
                 
             }
             else if(event.type == sf::Event::KeyReleased){
                 if(event.key.code==sf::Keyboard::Down)
-                    delay*=2;
+                    delay=0.6;
             }
         }
         if(clock.getElapsedTime().asSeconds()>delay){
@@ -38,11 +40,12 @@ void Game::play(){
         if(new_tile){
             new_tile=false;
             update_grid();
-            current_tile=Tile();
+            current_tile=next_tile;
+            next_tile=Tile();
         }
         current_tile.draw(window);
         window.display();
-
+        if(game_over())return;
 
     }
     sf::sleep(sf::milliseconds(10));
@@ -77,6 +80,9 @@ void Game::drawGrid() {
             }
         }
     }
+    next_tile.set_position(NBWIDTH*18+100,100);
+    next_tile.draw(window);
+    next_tile.set_position((NBWIDTH/2-1)*18,0);
 }
 
 bool Game::check_line_full(int i){
@@ -100,4 +106,11 @@ void Game::update_grid(){
         if(check_line_full(i))
             delete_line(i);
     }
+}
+
+bool Game::game_over(){
+    for(int j=0;j<NBWIDTH;j++){
+        if(grid[0][j]) return true;
+    }
+    return false;
 }

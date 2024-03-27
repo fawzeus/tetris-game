@@ -7,6 +7,7 @@
 class Game{
     private:
         Tile current_tile;
+        Tile next_tile;
         sf::Texture tile;
         sf::RenderWindow window;
         bool new_tile=false;
@@ -20,6 +21,7 @@ class Game{
         bool check_line_full(int i); // check if line i is full
         void delete_line(int i); // delete line(i);
         void update_grid(); // update grid if there is a full lines;
+        bool game_over(); //check for game over
 
 };
 

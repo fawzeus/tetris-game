@@ -1,6 +1,6 @@
 #include <vector>
 const int NBWIDTH=17,NBHEIGHT=20;
-const int WIDTH = NBWIDTH*18+100,HEIGHT=NBHEIGHT*18+200;
+const int WIDTH = NBWIDTH*18+200,HEIGHT=NBHEIGHT*18+200;
 // Define the tetris shapes in a 4x4 grid
 const std::vector<std::vector<std::pair<int, int>>> shapes = {
     // Shape 1: Square
@@ -10,7 +10,7 @@ const std::vector<std::vector<std::pair<int, int>>> shapes = {
     },
     // Shape 2: Line
     {
-        {0, 0}, {0, 1}, {0, 2}, {0, 3}
+        {2, 0}, {2, 1}, {2, 2}, {2, 3}
     },
     // Shape 3: L
     {
