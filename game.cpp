@@ -17,11 +17,11 @@ void Game::play(){
                 window.close();
             else if(event.type == sf::Event::KeyPressed){ 
                 if(event.key.code==sf::Keyboard::Left)
-                    current_tile.move(Direction::Left);
+                    current_tile.move(Direction::Left,grid);
                 else if(event.key.code==sf::Keyboard::Right)
-                    current_tile.move(Direction::Right);
+                    current_tile.move(Direction::Right,grid);
                 else if(event.key.code==sf::Keyboard::Up)
-                    current_tile.rotate();
+                    current_tile.rotate(grid);
                 else if(event.key.code==sf::Keyboard::Down)
                     delay=0.06;
                 
