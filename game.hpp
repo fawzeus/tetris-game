@@ -6,10 +6,12 @@
 #include "tile.hpp"
 class Game{
     private:
+        int score=0;
         Tile current_tile;
         Tile next_tile;
         sf::Texture tile;
         sf::RenderWindow window;
+        sf::Font font;
         bool new_tile=false;
         short grid[NBHEIGHT][NBWIDTH]={0};
         double delay = 0.7;
@@ -22,7 +24,7 @@ class Game{
         void delete_line(int i); // delete line(i);
         void update_grid(); // update grid if there is a full lines;
         bool game_over(); //check for game over
-
+        void skip_to_down();
 };
 
 #endif

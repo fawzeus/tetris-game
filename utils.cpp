@@ -14,3 +14,16 @@ int rand_int(int a, int b){
         }
     }
 }
+
+void drawSquareOutline(sf::RenderWindow& window, const sf::Vector2f& size, const sf::Vector2f& position, const sf::Color& outlineColor, float outlineThickness)
+{
+    // Create the square shape
+    sf::RectangleShape square(size);
+    square.setPosition(position);
+    square.setFillColor(sf::Color::Transparent);
+    square.setOutlineColor(outlineColor);
+    square.setOutlineThickness(outlineThickness);
+
+    // Draw the square outline
+    window.draw(square);
+}

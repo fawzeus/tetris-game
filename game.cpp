@@ -5,6 +5,12 @@ Game::Game():window(sf::VideoMode(WIDTH,HEIGHT),"Tetris game"){
     current_tile=Tile();
     tile.loadFromFile("images/tiles.png");
 }
+void Game::init(){
+    if (!font.loadFromFile("fonts/arial.ttf")) {
+        puts("error while loading font !");
+        return;
+    }
+}
 
 void Game::play(){
     //add_tile();
@@ -24,7 +30,8 @@ void Game::play(){
                     current_tile.rotate(grid);
                 else if(event.key.code==sf::Keyboard::Down)
                     delay=0.06;
-                
+                else if(event.key.code==sf::Keyboard::Space)
+                    skip_to_down();
             }
             else if(event.type == sf::Event::KeyReleased){
                 if(event.key.code==sf::Keyboard::Down)
@@ -80,6 +87,14 @@ void Game::drawGrid() {
             }
         }
     }
+    sf::Text scoreText;
+    scoreText.setFont(font);
+    scoreText.setString("Score: " + std::to_string(score));
+    scoreText.setCharacterSize(24);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(NBWIDTH * 18 + 50, 20);
+    window.draw(scoreText);
+    drawSquareOutline(window,sf::Vector2f(18*6,18*6),sf::Vector2f(NBWIDTH*18+82,82),sf::Color::White,1);
     next_tile.set_position(NBWIDTH*18+100,100);
     next_tile.draw(window);
     next_tile.set_position((NBWIDTH/2-1)*18,0);
@@ -103,8 +118,10 @@ void Game::delete_line(int i){
 }
 void Game::update_grid(){
     for(int i=0;i<NBHEIGHT;i++){
-        if(check_line_full(i))
+        if(check_line_full(i)){
             delete_line(i);
+            score+=10;
+        }
     }
 }
 
@@ -113,4 +130,14 @@ bool Game::game_over(){
         if(grid[0][j]) return true;
     }
     return false;
+}
+
+void Game::skip_to_down(){
+    Tile tmp(current_tile);
+    bool test;
+    tmp.gravity(grid,test);
+    while(tmp.is_valide_move(grid)){
+        current_tile.gravity(grid,new_tile);
+        tmp.gravity(grid,test);
+    }
 }

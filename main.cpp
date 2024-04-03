@@ -1,8 +1,9 @@
 #include "game.hpp"
 
 int main(){
-   Game g;
-   g.play();
+   Game game;
+   game.init();
+   game.play();
    return 0;
 }
 
